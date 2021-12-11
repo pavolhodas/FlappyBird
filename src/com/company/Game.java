@@ -1,18 +1,14 @@
 package com.company;
 
 import javax.swing.*;
+import java.awt.*;
 
-public class Game extends JFrame{
+public class Game extends JFrame {
 
     Game(){
-
-        add(new Chimney());
-        //add(new Bird());
+        add(new Panel());
         setSize(500, 500);
         setVisible(true);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
-
 }

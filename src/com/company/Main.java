@@ -1,6 +1,5 @@
 package com.company;
 
-import javax.crypto.Cipher;
 import javax.swing.*;
 
 public class Main extends JFrame {

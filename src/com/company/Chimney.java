@@ -1,17 +1,18 @@
 package com.company;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
 
-public class Chimney extends Panel {
+public class Chimney  {
 
-    public void paintComponent(Graphics g) {
 
-        super.paintComponent(g);
-
-        chimney(g);
+    Chimney(){
+        int x = 400;
+        int y = 0;
+        int width = 50;
+        int height = 550;
     }
 
-    private void chimney(Graphics g){
-        g.fillRect(400, 0, 50, 550);
-    }
 }

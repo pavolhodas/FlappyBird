@@ -1,19 +1,29 @@
 package com.company;
 
+
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-public class Bird extends Panel {
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
 
 
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+public class Bird {
 
-        writeBird(g);
+    public Image myPicture;
+
+    public Bird()  {
+
+            myPicture = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("graphics/flappy.png"));
+            myPicture = myPicture.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
     }
 
-    public void writeBird(Graphics g){
-        g.setColor(Color.BLACK);
-        g.fillRect(100, 100, 25, 25);
+
+    public Image getBirdImage(){
+
+        return myPicture;
     }
 
 }
