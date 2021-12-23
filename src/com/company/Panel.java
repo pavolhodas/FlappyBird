@@ -12,18 +12,20 @@ import java.util.Random;
 
 public class Panel extends JPanel implements ActionListener, KeyListener {
 
-    private int birdHigh = 0, birdMoveY = 0, birdPossitionX = 100;
+    private int birdHigh = 0, getY = 0, birdPossitionX = 100;
     Random ran = new Random();
     int height = 550;
     int width = 450;
-    int[] wallArr = {width, width + width/2};
-    int[] gap = {ran.nextInt(270) + 30, ran.nextInt(220) + 30};
+    int[] getTopX = {width, width + width/2};
+    int[] dieraVKomineY = {ran.nextInt(270) + 30, ran.nextInt(220) + 30};
     int score = 0;
     boolean gameOver = false;
     boolean stopTheGame = false;
     boolean printScore = false;
+    int typeOfBirdColor = 1;
 
     Panel(){
+        bird.setBirdColorr(BirdColor.BLUE);
         setSize(525, 550);
         setFocusable(true);
         setBackground(Color.CYAN);
@@ -46,7 +48,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
         }
     }
     public void setScore(){
-        if(wallArr[1] == 70 || wallArr[0] == 70){
+        if(getTopX[1] == 70 || getTopX[0] == 70){
            score++;
         }
         if(gameOver() && !printScore){
@@ -65,24 +67,24 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
     public boolean gameOver() {
 
         for (int i = 0; i < 2; i++){
-            if (wallArr[i] == 130 && birdMoveY > gap[i] + 75 || wallArr[i] == 130 && birdMoveY < gap[i] ||
-                    wallArr[i] <= 130 && wallArr[i] >= 75 && gap[i] >= birdMoveY ||
-                    wallArr[i] <= 130 && wallArr[i] >= 75 && gap[i] + 100 <= birdMoveY + 30 || birdMoveY >= 400 ) {
+            if (getTopX[i] == 130 && getY > dieraVKomineY[i] + 75 || getTopX[i] == 130 && getY < dieraVKomineY[i] ||
+                    getTopX[i] <= 130 && getTopX[i] >= 75 && dieraVKomineY[i] >= getY ||
+                    getTopX[i] <= 130 && getTopX[i] >= 75 && dieraVKomineY[i] + 100 <= getY + 30 || getY >= 400 ) {
 
                 gameOver = true;
             }
-            if(wallArr[i] + 50 < 0) {
-                wallArr[i] = width;
-                gap[i] = ran.nextInt(270) + 30;
+            if(getTopX[i] + 50 < 0) {
+                getTopX[i] = width;
+                dieraVKomineY[i] = ran.nextInt(270) + 30;
             }
         }
         if(stopTheGame) {
             printScore = false;
-            wallArr[0] = width;
-            wallArr[1] =  width + width/2;
+            getTopX[0] = width;
+            getTopX[1] =  width + width/2;
             birdPossitionX = 100;
             birdHigh = 0;
-            birdMoveY = 0;
+            getY = 0;
             gameOver = false;
             stopTheGame = false;
             score = 0;
@@ -97,10 +99,10 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
     public void writeChimney(Graphics g){
         for(int i = 0; i < 2; i++) {
             g.setColor(Color.DARK_GRAY);
-            g.fillRect(wallArr[i], 0, 50, height);
+            g.fillRect(getTopX[i], 0, 50, height);
 
             g.setColor(Color.CYAN);
-            g.fillRect(wallArr[i], gap[i], 50, 100);
+            g.fillRect(getTopX[i], dieraVKomineY[i], 50, 100);
         }
     }
 
@@ -108,7 +110,7 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
         g.setColor(Color.RED);
 
         Image birdImage = bird.getBirdImage();
-        g.drawImage(birdImage, birdPossitionX, birdMoveY, this);
+        g.drawImage(birdImage, birdPossitionX, getY, this);
     }
 
     private void writeGameOver(Graphics g){
@@ -131,24 +133,24 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
 
 
         if(!gameOver()) {
-            wallArr[0] -= 5;
-            wallArr[1] -= 5;
+            getTopX[0] -= 5;
+            getTopX[1] -= 5;
             birdHigh += 1;
-            birdMoveY += birdHigh;
-            if(birdMoveY <= 0){
+            getY += birdHigh;
+            if(getY <= 0){
                 birdHigh = 3;
             }
             repaint();
-        } else if(birdMoveY < 400){
+        } else if(getY < 400){
 
                 if(birdHigh < 0) {
                     birdHigh = 0;
                 }else{
                 birdHigh += 1;
-                birdMoveY += birdHigh;
+                getY += birdHigh;
 
-                if(birdMoveY > 400){
-                    birdMoveY = 400;
+                if(getY > 400){
+                    getY = 400;
                 }
                 repaint();
                 }
@@ -164,8 +166,19 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
     public void keyPressed(KeyEvent e) {
         if(e.getKeyChar() == KeyEvent.VK_SPACE && !gameOver()){
             birdHigh = -10;
-        }else if(e.getKeyChar() == KeyEvent.VK_SPACE && gameOver() && birdMoveY >= 400){
+        }else if(e.getKeyChar() == KeyEvent.VK_SPACE && gameOver() && getY >= 400){
             stopTheGame = true;
+        }
+
+        if(gameOver() && e.getKeyChar() == KeyEvent.VK_1){
+            setFlappyColor(1);
+            System.out.println("111111");
+        }else if(gameOver() && e.getKeyChar() == KeyEvent.VK_2){
+            setFlappyColor(2);
+            System.out.println("22222");
+        }else if(gameOver() && e.getKeyChar() == KeyEvent.VK_3){
+            setFlappyColor(3);
+            System.out.println("3333");
         }
     }
 
@@ -173,4 +186,22 @@ public class Panel extends JPanel implements ActionListener, KeyListener {
     public void keyReleased(KeyEvent e) {
 
     }
+
+    public void setFlappyColor(int n){
+
+        if(n == 1) {
+            bird.setBirdColorr(BirdColor.RED);
+            System.out.println(bird.getBirdColorr());
+        }else if(n == 2) {
+            bird.setBirdColorr(BirdColor.BLUE);
+            System.out.println(bird.getBirdColorr());
+        }else if(n == 3){
+            bird.setBirdColorr(BirdColor.YELLOW);
+            System.out.println(bird.getBirdColorr());
+        }
+    }
+
+//    public int getFlappyColor(){
+//        return typeOfBirdColor;
+//    }
 }

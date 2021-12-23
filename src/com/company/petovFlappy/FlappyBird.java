@@ -1,5 +1,7 @@
 package com.company.petovFlappy;
 
+import com.company.BirdColor;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
